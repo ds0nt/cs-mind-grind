@@ -93,3 +93,63 @@ func TestBFS2(t *testing.T) {
 	printPath(path)
 
 }
+
+func TestDFS3(t *testing.T) {
+	g := MakeTestGraph3()
+
+	path, ok := DFS(g[0], "4")
+	if !ok {
+		t.FailNow()
+	}
+	fmt.Println("path from 0 to 4")
+	printPath(path)
+
+	path, ok = DFS(g[4], "6")
+	if !ok {
+		t.FailNow()
+	}
+	fmt.Println("path from 4 to 6")
+	printPath(path)
+
+	_, ok = DFS(g[5], "0")
+	if ok {
+		t.FailNow()
+	}
+	fmt.Println("no path from 5 to 0")
+
+	_, ok = DFS(g[6], "2")
+	if ok {
+		t.FailNow()
+	}
+	fmt.Println("no path from 6 to 2")
+}
+
+func TestBFS3(t *testing.T) {
+	g := MakeTestGraph3()
+
+	path, ok := BFS(g[0], "4", len(g))
+	if !ok {
+		t.FailNow()
+	}
+	fmt.Println("path from 0 to 4")
+	printPath(path)
+
+	path, ok = BFS(g[4], "6", len(g))
+	if !ok {
+		t.FailNow()
+	}
+	fmt.Println("path from 4 to 6")
+	printPath(path)
+
+	_, ok = BFS(g[5], "0", len(g))
+	if ok {
+		t.FailNow()
+	}
+	fmt.Println("no path from 5 to 0")
+
+	_, ok = BFS(g[6], "2", len(g))
+	if ok {
+		t.FailNow()
+	}
+	fmt.Println("no path from 6 to 2")
+}

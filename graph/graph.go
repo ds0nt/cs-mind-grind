@@ -26,6 +26,11 @@ func (g *Graph) AddEdge(a, b *Node) {
 	b.Adjascent = append(b.Adjascent, a)
 }
 
+func (g *Graph) AddDirectedEdge(a, b *Node) {
+	a.Adjascent = append(a.Adjascent, b)
+	// b.Adjascent = append(b.Adjascent, a)
+}
+
 // MakeTestGraph makes a graph like this:
 /*
 	7		   4 -- 3
@@ -103,6 +108,41 @@ func MakeTestGraph2() Graph {
 7         4 -- 3
 |         
 8 -- 0 -- 1 -- 2
+`)
+
+	return testGraph
+}
+
+// MakeTestGraph3 make a directed graph like this:
+/*
+0  -> 1 <-> 2 <-> 3 <- 4 <-> 5
+ \|  |/     |------->>-------|
+	6
+*/
+func MakeTestGraph3() Graph {
+	var testGraph = Graph{
+		NewNode("0"),
+		NewNode("1"),
+		NewNode("2"),
+		NewNode("3"),
+		NewNode("4"),
+		NewNode("5"),
+		NewNode("6"),
+	}
+
+	testGraph.AddDirectedEdge(testGraph[0], testGraph[1])
+	testGraph.AddDirectedEdge(testGraph[0], testGraph[6])
+	testGraph.AddDirectedEdge(testGraph[1], testGraph[6])
+	testGraph.AddEdge(testGraph[1], testGraph[2])
+	testGraph.AddEdge(testGraph[2], testGraph[3])
+	testGraph.AddDirectedEdge(testGraph[4], testGraph[3])
+	testGraph.AddEdge(testGraph[4], testGraph[5])
+	testGraph.AddDirectedEdge(testGraph[2], testGraph[5])
+
+	fmt.Print(`
+0  -> 1 <-> 2 <-> 3 <- 4 <-> 5
+ \|  |/     |------->>-------| 
+    6
 `)
 
 	return testGraph
