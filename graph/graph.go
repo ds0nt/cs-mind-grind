@@ -148,6 +148,36 @@ func MakeTestGraph3() Graph {
 	return testGraph
 }
 
+// MakeTestAcyclic make a directed graph like this:
+
+func MakeTestGraph4() Graph {
+	fmt.Print(`
+2 <- 1 <- 0
+     |
+     >> 3 <- 4
+        ^
+        L 5 -> 6
+`)
+	var testGraph = Graph{
+		NewNode("0"),
+		NewNode("1"),
+		NewNode("2"),
+		NewNode("3"),
+		NewNode("4"),
+		NewNode("5"),
+		NewNode("6"),
+	}
+
+	testGraph.AddDirectedEdge(testGraph[0], testGraph[1])
+	testGraph.AddDirectedEdge(testGraph[1], testGraph[2])
+	testGraph.AddDirectedEdge(testGraph[1], testGraph[3])
+	testGraph.AddDirectedEdge(testGraph[4], testGraph[3])
+	testGraph.AddDirectedEdge(testGraph[5], testGraph[3])
+	testGraph.AddDirectedEdge(testGraph[5], testGraph[6])
+
+	return testGraph
+}
+
 func dfs(n *Node, target string, visited map[*Node]struct{}) ([]*Node, bool) {
 	if _, ok := visited[n]; ok {
 		return nil, false

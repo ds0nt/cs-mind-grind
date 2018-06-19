@@ -153,3 +153,13 @@ func TestBFS3(t *testing.T) {
 	}
 	fmt.Println("no path from 6 to 2")
 }
+
+func TestIsCyclic(t *testing.T) {
+	g := MakeTestGraph4()
+	fmt.Println("Cyclic:", IsCyclic(g))
+
+	fmt.Println("add edge from 6 to 4")
+	g.AddDirectedEdge(g[6], g[4])
+	fmt.Println("Cyclic:", IsCyclic(g))
+
+}
