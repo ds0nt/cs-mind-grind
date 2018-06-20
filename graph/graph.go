@@ -15,6 +15,7 @@ type Graph []*Node
 type Node struct {
 	Value     string
 	Adjascent []*Node
+	Directed  bool
 }
 
 func NewNode(v string) *Node {
