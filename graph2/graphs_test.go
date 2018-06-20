@@ -28,6 +28,8 @@ func TestUndirectedGraph(t *testing.T) {
 }
 
 func TestIsCyclic(t *testing.T) {
+
+	// basic 3 node connected graph
 	var testGraph = NewUndirectedGraph()
 	n1, n2, n3 := NewNode(1), NewNode(2), NewNode(3)
 
@@ -37,7 +39,40 @@ func TestIsCyclic(t *testing.T) {
 
 	assert.False(t, testGraph.IsCyclic())
 
+	// create a cycle
 	testGraph.AddEdge(n1, n3)
-
 	assert.True(t, testGraph.IsCyclic())
+
+	// disconnected 4 node graph
+	testGraph = NewUndirectedGraph()
+	n1, n2, n3, n4 := NewNode(1), NewNode(2), NewNode(3), NewNode(4)
+	testGraph.AddNode(n1, n2, n3, n4)
+	testGraph.AddEdge(n1, n2)
+	assert.False(t, testGraph.IsCyclic())
+	testGraph.AddEdge(n3, n4)
+	assert.False(t, testGraph.IsCyclic())
+	// connect graph
+	testGraph.AddEdge(n2, n3)
+	assert.False(t, testGraph.IsCyclic())
+	// create cycle
+	testGraph.AddEdge(n4, n1)
+	assert.True(t, testGraph.IsCyclic())
+
+	// graph with double edge
+	testGraph = NewUndirectedGraph()
+	n1, n2 = NewNode(1), NewNode(2)
+	testGraph.AddNode(n1, n2)
+	testGraph.AddEdge(n1, n2)
+	assert.False(t, testGraph.IsCyclic())
+	testGraph.AddEdge(n1, n2)
+	assert.True(t, testGraph.IsCyclic())
+
+	// graph with edge to self
+	testGraph = NewUndirectedGraph()
+	n1, n2 = NewNode(1), NewNode(2)
+	testGraph.AddNode(n1, n2)
+	assert.False(t, testGraph.IsCyclic())
+	testGraph.AddEdge(n1, n1)
+	assert.True(t, testGraph.IsCyclic())
+
 }
