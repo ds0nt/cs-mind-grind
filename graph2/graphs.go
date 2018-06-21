@@ -99,33 +99,39 @@ func (dg *DirectedGraph) IsCyclic() bool {
 	// I better find all subgraphs by doing this: https://stackoverflow.com/a/1348995/2532523
 	// caught this in my extensive unit testing ^.^
 	// count all indegrees
-	indegrees := map[*Node]int{}
+	// SOLUTION: http://www.cs.yale.edu/homes/aspnes/pinewiki/DepthFirstSearch.html
+	// use a virtual node connected to all other vertexes and dfs from there
+	// (or just use a for loop on all vertexes)
+	// indegrees := map[*Node]int{}
+	// for _, n := range dg.Nodes {
+	// 	indegrees[n] = 0
+	// }
+
+	// for _, n := range dg.Nodes {
+	// 	for _, adj := range n.Adjascent {
+	// 		indegrees[adj]++
+	// 	}
+	// }
+
+	// // find nodes with no indegrees
+	// startNodes := []*Node{}
+	// for n, in := range indegrees {
+	// 	if in == 0 {
+	// 		startNodes = append(startNodes, n)
+	// 	}
+	// }
+
+	// // if we have startNodes then it's already cyclic
+	// if len(startNodes) == 0 {
+	// 	return true
+	// }
+	// // END FLAWEDNESS
+
+	visited := map[*Node]bool{}
 	for _, n := range dg.Nodes {
-		indegrees[n] = 0
-	}
-
-	for _, n := range dg.Nodes {
-		for _, adj := range n.Adjascent {
-			indegrees[adj]++
+		if _, ok := visited[n]; ok {
+			continue
 		}
-	}
-
-	// find nodes with no indegrees
-	startNodes := []*Node{}
-	for n, in := range indegrees {
-		if in == 0 {
-			startNodes = append(startNodes, n)
-		}
-	}
-
-	// if we have startNodes then it's already cyclic
-	if len(startNodes) == 0 {
-		return true
-	}
-	// END FLAWEDNESS
-
-	for _, n := range startNodes {
-		visited := map[*Node]bool{}
 		if hasBackEdges(n, []*Node{}, visited) {
 			return true
 		}
