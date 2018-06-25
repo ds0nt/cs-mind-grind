@@ -1,6 +1,6 @@
 package directed
 
-import "github.com/ds0nt/cs-mind-grind/queue"
+import "github.com/ds0nt/cs-mind-grind/cyclic_queue"
 
 type DirectedGraph struct {
 	Nodes []*Node
