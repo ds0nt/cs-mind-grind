@@ -1,5 +1,7 @@
 package directed
 
+import "github.com/ds0nt/cs-mind-grind/queue"
+
 type DirectedGraph struct {
 	Nodes []*Node
 }
@@ -63,12 +65,41 @@ func (dg *DirectedGraph) IsCyclic() bool {
 	return false
 }
 
+// TopologicalSort topologically sorts a graph.
+// it expects an acyclic graph.
 func (dg *DirectedGraph) TopologicalSort() (sorted []*Node) {
 	// because im using adjascency list.. gotta calculate indegrees 0
-	indegrees := make([]int, len(dg.Nodes))
-	for i, n := range dg.Nodes {
-		indegrees[i] = len(n.Adjascent)
+	indegrees := make(map[*Node]int, len(dg.Nodes))
+	nodeQueue := queue.NewQueue(len(dg.Nodes))
+
+	for _, n := range dg.Nodes {
+		indegrees[n] = 0
 	}
+	for _, n := range dg.Nodes {
+		for _, adj := range n.Adjascent {
+			indegrees[adj]++
+		}
+	}
+	for _, n := range dg.Nodes {
+		if indegrees[n] == 0 {
+			nodeQueue.Enqueue(n)
+		}
+	}
+
+	for {
+		n, ok := nodeQueue.Dequeue()
+		if !ok {
+			break
+		}
+		for _, adj := range n.(*Node).Adjascent {
+			indegrees[adj]--
+			if indegrees[adj] == 0 {
+				nodeQueue.Enqueue(adj)
+			}
+		}
+		sorted = append(sorted, n.(*Node))
+	}
+	return
 }
 
 func hasBackEdges(n *Node, ancestors []*Node, visited map[*Node]bool) bool {

@@ -1,6 +1,7 @@
 package directed
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -73,4 +74,32 @@ func TestDirectedIsCyclic(t *testing.T) {
 	graph.AddEdge(n4, n6)
 	assert.True(t, graph.IsCyclic())
 
+}
+
+func TestTopologicalSort(t *testing.T) {
+	graph := NewDirectedGraph()
+	n1, n2, n3, n4, n5, n6, n7 := NewNode(1), NewNode(2), NewNode(3), NewNode(4), NewNode(5), NewNode(6), NewNode(7)
+	graph.AddNode(n6, n7, n1, n2, n3, n4, n5)
+	graph.AddEdge(n1, n2)
+	graph.AddEdge(n1, n3)
+	graph.AddEdge(n2, n3)
+	graph.AddEdge(n2, n3) // double edge
+	graph.AddEdge(n4, n3)
+	graph.AddEdge(n5, n1)
+	graph.AddEdge(n7, n6)
+
+	assert.False(t, graph.IsCyclic())
+
+	sorted := graph.TopologicalSort()
+	for _, n := range sorted {
+		fmt.Println(n.Value)
+	}
+	// there are multiple valid orders, but the algo returns this one :p
+	assert.Equal(t, sorted[0], n7)
+	assert.Equal(t, sorted[1], n4)
+	assert.Equal(t, sorted[2], n5)
+	assert.Equal(t, sorted[3], n6)
+	assert.Equal(t, sorted[4], n1)
+	assert.Equal(t, sorted[5], n2)
+	assert.Equal(t, sorted[6], n3)
 }

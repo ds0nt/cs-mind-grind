@@ -6,9 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const chainSize = 3
-
-func TestQueueSimple(t *testing.T) {
+func TestQueue(t *testing.T) {
+	const chainSize = 3
 	q := NewQueue(chainSize)
 	val, ok := q.Dequeue()
 	assert.False(t, ok)
@@ -106,4 +105,9 @@ func TestQueueSimple(t *testing.T) {
 	val, _ = q.Dequeue()
 	assert.Equal(t, val, 24)
 	assert.Nil(t, q.next)
+
+	val, ok = q.Dequeue()
+	assert.Nil(t, val)
+	assert.False(t, ok)
+
 }
