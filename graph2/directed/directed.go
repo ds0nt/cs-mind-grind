@@ -63,6 +63,14 @@ func (dg *DirectedGraph) IsCyclic() bool {
 	return false
 }
 
+func (dg *DirectedGraph) TopologicalSort() (sorted []*Node) {
+	// because im using adjascency list.. gotta calculate indegrees 0
+	indegrees := make([]int, len(dg.Nodes))
+	for i, n := range dg.Nodes {
+		indegrees[i] = len(n.Adjascent)
+	}
+}
+
 func hasBackEdges(n *Node, ancestors []*Node, visited map[*Node]bool) bool {
 	visited[n] = true
 	// ancestor of self also counts as cycle.. :p
