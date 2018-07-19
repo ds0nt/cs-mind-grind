@@ -10,14 +10,14 @@ Example of how the cyclic chained queue works...
   bucket: [ x, _, _ ] --- linked bucket = nil
             |  |       
             |  |       
-            |   ---------- pushI = 1
+            |   --------- pushI = 1
              ------------ popI = 0
 
 # add an item (y)
   bucket: [ x, y, _ ] -- linked bucket = nil
             |     |    
             |     |    
-            |      ---------- pushI = 2
+            |      ------ pushI = 2
              ------------ popI = 0
 
 # add more items (z, a, b)
