@@ -15,7 +15,7 @@ Example of how the cyclic chained queue works...
 
 # add an item (y)
   bucket: [ x, y, _ ] -- linked bucket = nil
-            |     |    |
+            |     |    
             |     |    
             |      ---------- pushI = 2
              ------------ popI = 0
